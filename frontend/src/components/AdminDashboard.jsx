@@ -1718,7 +1718,7 @@ const AdminDashboard = () => {
                                                                                 transition: 'all 0.2s ease',
                                                                                 fontSize: '11px'
                                                                             }}
-                                                                            onClick={() => handleEditAppointment(appointment)}
+                                                                            onDoubleClick={() => handleEditAppointment(appointment)}
                                                                             onMouseEnter={(e) => {
                                                                                 e.currentTarget.style.transform = 'scale(1.02)';
                                                                                 e.currentTarget.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
