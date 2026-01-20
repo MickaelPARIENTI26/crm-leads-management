@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../config';
 import axios from 'axios';
+import { API_BASE_URL } from '../config';
 import { getToken } from '../utils/auth';
 
 const AppointmentEditModal = ({ show, handleClose, appointmentData, onAppointmentUpdated }) => {
@@ -50,7 +52,7 @@ const AppointmentEditModal = ({ show, handleClose, appointmentData, onAppointmen
 
         try {
             const token = getToken();
-            await axios.put(`http://localhost:5001/api/appointments/${appointmentData.id}`, formData, {
+            await axios.put(`${API_BASE_URL}/api/appointments/${appointmentData.id}/api`, formData, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { getToken, removeToken } from '../utils/auth';
+import { API_BASE_URL } from '../config';
 
 const ImportLeads = () => {
     const [file, setFile] = useState(null);
@@ -61,7 +62,7 @@ const ImportLeads = () => {
         setLoading(true);
         try {
             const token = getToken();
-            const response = await axios.post('http://localhost:5001/api/leads/import', formData, {
+            const response = await axios.post(`${API_BASE_URL}/api/leads/import`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${token}`

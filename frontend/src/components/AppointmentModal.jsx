@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../config';
 import axios from 'axios';
+import { API_BASE_URL } from '../config';
 import { getToken } from '../utils/auth';
 
 const AppointmentModal = ({ show, handleClose, leadData, onAppointmentCreated, initialDate, initialTime }) => {
@@ -49,7 +51,7 @@ const AppointmentModal = ({ show, handleClose, leadData, onAppointmentCreated, i
         try {
             const token = getToken();
             console.log('🔍 Searching for:', searchTerm);
-            const response = await axios.get(`http://localhost:5001/api/leads?search=${searchTerm}`, {
+            const response = await axios.get(`${API_BASE_URL}/api/leads?search=${searchTerm}/api`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             console.log('📋 Results found:', response.data.length);
@@ -102,7 +104,7 @@ const AppointmentModal = ({ show, handleClose, leadData, onAppointmentCreated, i
         setLoading(true);
         try {
             const token = getToken();
-            const response = await axios.post('http://localhost:5001/api/appointments',
+            const response = await axios.post(`${API_BASE_URL}`/api/appointments',
                 formData,
                 { headers: { Authorization: `Bearer ${token}` }}
             );

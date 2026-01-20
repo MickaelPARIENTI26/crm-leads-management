@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../config';
 import axios from 'axios';
+import { API_BASE_URL } from '../config';
 import { getToken } from '../utils/auth';
 
 const LeadEditModal = ({ show, handleClose, leadData }) => {
@@ -35,7 +37,7 @@ const LeadEditModal = ({ show, handleClose, leadData }) => {
         try {
             const token = getToken();
             await axios.put(
-                `http://localhost:5001/api/leads/${leadData.id}`,
+                `${API_BASE_URL}/api/leads/${leadData.id}`,
                 formData,
                 { headers: { Authorization: `Bearer ${token}` }}
             );

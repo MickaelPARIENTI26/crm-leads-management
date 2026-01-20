@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { API_BASE_URL } from '../config';
 import { useHistory } from 'react-router-dom';
+import { API_BASE_URL } from '../config';
 import axios from 'axios';
 import { getToken, removeToken, getUserRole } from '../utils/auth';
 import AppointmentModal from './AppointmentModal';
@@ -123,7 +125,7 @@ const AdminDashboard = () => {
     const fetchLeads = async () => {
         try {
             const token = getToken();
-            const response = await axios.get('http://localhost:5001/api/leads', {
+            const response = await axios.get(`${API_BASE_URL}`/api/leads', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setLeads(response.data);
@@ -146,7 +148,7 @@ const AdminDashboard = () => {
     const fetchTelepros = async () => {
         try {
             const token = getToken();
-            const response = await axios.get('http://localhost:5001/api/users', {
+            const response = await axios.get(`${API_BASE_URL}`/api/users', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             const teleprosList = response.data.filter(u => u.role === 'TELEPRO');
@@ -160,7 +162,7 @@ const AdminDashboard = () => {
     const fetchAppointments = async () => {
         try {
             const token = getToken();
-            const response = await axios.get('http://localhost:5001/api/appointments', {
+            const response = await axios.get(`${API_BASE_URL}`/api/appointments', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setAppointments(response.data);
@@ -199,7 +201,7 @@ const AdminDashboard = () => {
 
         try {
             const token = getToken();
-            await axios.post('http://localhost:5001/api/leads/assign',
+            await axios.post(`${API_BASE_URL}`/api/leads/assign',
                 { leadIds: selectedLeads, assignedToId: selectedTelepro },
                 { headers: { Authorization: `Bearer ${token}` }}
             );
@@ -215,7 +217,7 @@ const AdminDashboard = () => {
     const handleUnassignLead = async (leadId) => {
         try {
             const token = getToken();
-            await axios.post('http://localhost:5001/api/leads/assign',
+            await axios.post(`${API_BASE_URL}`/api/leads/assign',
                 { leadIds: [leadId], assignedToId: null },
                 { headers: { Authorization: `Bearer ${token}` }}
             );
@@ -234,7 +236,7 @@ const AdminDashboard = () => {
 
         try {
             const token = getToken();
-            await axios.post('http://localhost:5001/api/leads/assign',
+            await axios.post(`${API_BASE_URL}`/api/leads/assign',
                 { leadIds: selectedLeads, assignedToId: null },
                 { headers: { Authorization: `Bearer ${token}` }}
             );
@@ -251,7 +253,7 @@ const AdminDashboard = () => {
         e.preventDefault();
         try {
             const token = getToken();
-            await axios.post('http://localhost:5001/api/users',
+            await axios.post(`${API_BASE_URL}`/api/users',
                 { ...newTelepro, role: 'TELEPRO' },
                 { headers: { Authorization: `Bearer ${token}` }}
             );
@@ -271,7 +273,7 @@ const AdminDashboard = () => {
 
         try {
             const token = getToken();
-            await axios.delete(`http://localhost:5001/api/appointments/${appointmentId}`, {
+            await axios.delete(`${API_BASE_URL}/api/appointments/${appointmentId}/api`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             showMessage('success', 'RDV supprimé avec succès');
@@ -333,7 +335,7 @@ const AdminDashboard = () => {
         try {
             const token = getToken();
             const statusValue = newStatus === '' ? null : newStatus;
-            await axios.put(`http://localhost:5001/api/leads/${leadId}`,
+            await axios.put(`${API_BASE_URL}/api/leads/${leadId}`,
                 { status: statusValue },
                 { headers: { Authorization: `Bearer ${token}` }}
             );
@@ -350,7 +352,7 @@ const AdminDashboard = () => {
     const handleAppointmentStatusChange = async (appointmentId, newStatus) => {
         try {
             const token = getToken();
-            await axios.put(`http://localhost:5001/api/appointments/${appointmentId}`,
+            await axios.put(`${API_BASE_URL}/api/appointments/${appointmentId}`,
                 { status: newStatus },
                 { headers: { Authorization: `Bearer ${token}` }}
             );

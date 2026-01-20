@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { API_BASE_URL } from '../config';
 import { useHistory } from 'react-router-dom';
+import { API_BASE_URL } from '../config';
 import axios from 'axios';
 import { getToken, removeToken, getUserRole } from '../utils/auth';
 import LeadEditModal from './LeadEditModal';
@@ -99,7 +101,7 @@ const TeleproDashboard = () => {
         setLoading(true);
         try {
             const token = getToken();
-            const response = await axios.get('http://localhost:5001/api/leads/my', {
+            const response = await axios.get(`${API_BASE_URL}`/api/leads/my', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setLeads(response.data);
@@ -114,7 +116,7 @@ const TeleproDashboard = () => {
     const fetchMyAppointments = async () => {
         try {
             const token = getToken();
-            const response = await axios.get('http://localhost:5001/api/appointments/my', {
+            const response = await axios.get(`${API_BASE_URL}`/api/appointments/my', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setAppointments(response.data);
@@ -126,7 +128,7 @@ const TeleproDashboard = () => {
     const fetchAllAppointments = async () => {
         try {
             const token = getToken();
-            const response = await axios.get('http://localhost:5001/api/appointments', {
+            const response = await axios.get(`${API_BASE_URL}`/api/appointments', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setAllAppointments(response.data);
@@ -169,7 +171,7 @@ const TeleproDashboard = () => {
 
         try {
             const token = getToken();
-            await axios.put(`http://localhost:5001/api/leads/${leadId}`,
+            await axios.put(`${API_BASE_URL}/api/leads/${leadId}`,
                 { commentaire: newComment },
                 { headers: { Authorization: `Bearer ${token}` }}
             );
@@ -193,7 +195,7 @@ const TeleproDashboard = () => {
             try {
                 const token = getToken();
                 const statusValue = newStatus === '' ? null : newStatus;
-                await axios.put(`http://localhost:5001/api/leads/${lead.id}`,
+                await axios.put(`${API_BASE_URL}/api/leads/${lead.id}`,
                     { status: statusValue },
                     { headers: { Authorization: `Bearer ${token}` }}
                 );
@@ -256,7 +258,7 @@ const TeleproDashboard = () => {
 
         try {
             const token = getToken();
-            await axios.delete(`http://localhost:5001/api/appointments/${appointmentId}`, {
+            await axios.delete(`${API_BASE_URL}/api/appointments/${appointmentId}/api`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             fetchMyAppointments();
@@ -270,7 +272,7 @@ const TeleproDashboard = () => {
     const handleAppointmentStatusChange = async (appointmentId, newStatus) => {
         try {
             const token = getToken();
-            await axios.put(`http://localhost:5001/api/appointments/${appointmentId}`,
+            await axios.put(`${API_BASE_URL}/api/appointments/${appointmentId}`,
                 { status: newStatus },
                 { headers: { Authorization: `Bearer ${token}` }}
             );
