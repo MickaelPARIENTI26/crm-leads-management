@@ -21,28 +21,6 @@ app.use('/api/users', authMiddleware, roleMiddleware('ADMIN'), userRoutes);
 app.use('/api/leads', authMiddleware, leadRoutes);
 app.use('/api/appointments', authMiddleware, appointmentRoutes);
 
-// ROUTE TEMPORAIRE - Voir les utilisateurs en base (à supprimer après)
-app.get('/api/debug-users', async (req, res) => {
-    try {
-        const users = await prisma.user.findMany({
-            select: {
-                id: true,
-                email: true,
-                nom: true,
-                role: true,
-                createdAt: true
-            }
-        });
-        res.json({
-            count: users.length,
-            users: users
-        });
-    } catch (error) {
-        console.error('Erreur:', error);
-        res.status(500).json({ error: 'Erreur serveur' });
-    }
-});
-
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
