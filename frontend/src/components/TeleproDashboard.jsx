@@ -304,7 +304,8 @@ const TeleproDashboard = () => {
             'NRP': 'NRP',
             'A_RAPPELE': 'A rappelé',
             'RDV': 'RDV',
-            'ANNULE': 'Annulé'
+            'ANNULE': 'Annulé',
+            'PAS_FAIT_DE_DEMANDE': 'Pas fait de demande'
         };
         return labels[status] || status;
     };
@@ -459,6 +460,13 @@ const TeleproDashboard = () => {
                             >
                                 Annulé
                             </button>
+                            <button
+                                onClick={() => setStatusFilter('PAS_FAIT_DE_DEMANDE')}
+                                className={`btn ${statusFilter === 'PAS_FAIT_DE_DEMANDE' ? 'btn-primary' : 'btn-secondary'}`}
+                                style={{ padding: '6px 12px', fontSize: '13px' }}
+                            >
+                                Pas fait de demande
+                            </button>
                         </div>
                     </div>
 
@@ -530,11 +538,13 @@ const TeleproDashboard = () => {
                                                         backgroundColor: !lead.status ? '#f7f7f7' :
                                                             lead.status === 'NRP' ? '#fed7d7' :
                                                             lead.status === 'A_RAPPELE' ? '#bee3f8' :
-                                                            lead.status === 'RDV' ? '#c6f6d5' : '#fef5e7',
+                                                            lead.status === 'RDV' ? '#c6f6d5' :
+                                                            lead.status === 'PAS_FAIT_DE_DEMANDE' ? '#e9d5ff' : '#fef5e7',
                                                         color: !lead.status ? '#888' :
                                                             lead.status === 'NRP' ? '#c53030' :
                                                             lead.status === 'A_RAPPELE' ? '#2c5282' :
-                                                            lead.status === 'RDV' ? '#22543d' : '#744210'
+                                                            lead.status === 'RDV' ? '#22543d' :
+                                                            lead.status === 'PAS_FAIT_DE_DEMANDE' ? '#6b21a8' : '#744210'
                                                     }}
                                                 >
                                                     <option value="">-- Vide --</option>
@@ -542,6 +552,7 @@ const TeleproDashboard = () => {
                                                     <option value="A_RAPPELE">A rappelé</option>
                                                     <option value="RDV">RDV</option>
                                                     <option value="ANNULE">Annulé</option>
+                                                    <option value="PAS_FAIT_DE_DEMANDE">Pas fait de demande</option>
                                                 </select>
                                             </td>
                                             <td style={{ maxWidth: '250px' }}>

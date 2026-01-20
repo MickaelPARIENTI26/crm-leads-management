@@ -17,6 +17,7 @@ enum LeadStatus {
   A_RAPPELE
   RDV
   ANNULE
+  PAS_FAIT_DE_DEMANDE
 }
 
 enum LeadType {
