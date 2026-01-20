@@ -98,12 +98,13 @@ const AdminDashboard = () => {
             }
         }
 
-        // Filter by search query (nom or prenom)
+        // Filter by search query (nom, prenom, or telephone)
         if (searchQuery.trim()) {
             const query = searchQuery.toLowerCase();
             filtered = filtered.filter(lead =>
                 lead.nom?.toLowerCase().includes(query) ||
-                lead.prenom?.toLowerCase().includes(query)
+                lead.prenom?.toLowerCase().includes(query) ||
+                lead.telephone?.toLowerCase().includes(query)
             );
         }
 
@@ -1150,7 +1151,7 @@ const AdminDashboard = () => {
                                     <label style={{ fontSize: '13px', color: '#666', fontWeight: 500 }}>Recherche:</label>
                                     <input
                                         type="text"
-                                        placeholder="Nom ou prénom..."
+                                        placeholder="Nom, prénom ou téléphone..."
                                         value={searchQuery}
                                         onChange={(e) => setSearchQuery(e.target.value)}
                                         style={{
