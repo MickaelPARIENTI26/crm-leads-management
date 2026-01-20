@@ -1718,7 +1718,7 @@ const AdminDashboard = () => {
                                                                                 transition: 'all 0.2s ease',
                                                                                 fontSize: '11px'
                                                                             }}
-                                                                            onDoubleClick={() => handleEditAppointment(appointment)}
+                                                                            onClick={() => handleEditAppointment(appointment)}
                                                                             onMouseEnter={(e) => {
                                                                                 e.currentTarget.style.transform = 'scale(1.02)';
                                                                                 e.currentTarget.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
@@ -1731,7 +1731,7 @@ const AdminDashboard = () => {
                                                                             }}
                                                                             title={`${appointment.heureRdv} - ${appointment.prenom} ${appointment.nom}\n${appointment.telephone}\n${appointment.adresse}\nTélépro: ${appointment.agent?.nom || appointment.agent?.email}`}
                                                                         >
-                                                                            <div style={{ fontWeight: 700, marginBottom: '3px', color: '#333', fontSize: '12px' }}>
+                                                                            <div style={{ fontWeight: 700, marginBottom: '3px', color: '#333', fontSize: '10px' }}>
                                                                                 {appointment.heureRdv}
                                                                             </div>
                                                                             <div style={{ fontWeight: 600, marginBottom: '3px', color: '#333', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', fontSize: '11px' }}>
