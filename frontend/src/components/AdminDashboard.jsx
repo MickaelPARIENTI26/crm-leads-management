@@ -541,6 +541,22 @@ const AdminDashboard = () => {
                     >
                         👥 Liste des Télépros
                     </button>
+                    <button
+                        onClick={() => setActiveTab('statistics')}
+                        style={{
+                            padding: '16px 24px',
+                            background: 'none',
+                            border: 'none',
+                            borderBottom: activeTab === 'statistics' ? '3px solid #667eea' : '3px solid transparent',
+                            color: activeTab === 'statistics' ? '#667eea' : '#666',
+                            fontWeight: activeTab === 'statistics' ? 600 : 500,
+                            cursor: 'pointer',
+                            fontSize: '15px',
+                            transition: 'all 0.2s ease'
+                        }}
+                    >
+                        📈 Statistiques
+                    </button>
                 </div>
             </div>
 
@@ -1077,6 +1093,7 @@ const AdminDashboard = () => {
                                         <option value="A_RAPPELE">A rappelé</option>
                                         <option value="RDV">RDV</option>
                                         <option value="ANNULE">Annulé</option>
+                                        <option value="PAS_FAIT_DE_DEMANDE">Pas fait de demande</option>
                                     </select>
                                 </div>
 
@@ -1179,11 +1196,13 @@ const AdminDashboard = () => {
                                                             backgroundColor: !lead.status ? '#f7f7f7' :
                                                                 lead.status === 'NRP' ? '#fed7d7' :
                                                                 lead.status === 'A_RAPPELE' ? '#bee3f8' :
-                                                                lead.status === 'RDV' ? '#c6f6d5' : '#fef5e7',
+                                                                lead.status === 'RDV' ? '#c6f6d5' :
+                                                                lead.status === 'PAS_FAIT_DE_DEMANDE' ? '#e9d5ff' : '#fef5e7',
                                                             color: !lead.status ? '#888' :
                                                                 lead.status === 'NRP' ? '#c53030' :
                                                                 lead.status === 'A_RAPPELE' ? '#2c5282' :
-                                                                lead.status === 'RDV' ? '#22543d' : '#744210'
+                                                                lead.status === 'RDV' ? '#22543d' :
+                                                                lead.status === 'PAS_FAIT_DE_DEMANDE' ? '#6b21a8' : '#744210'
                                                         }}
                                                     >
                                                         <option value="">-- Vide --</option>
@@ -1191,6 +1210,7 @@ const AdminDashboard = () => {
                                                         <option value="A_RAPPELE">A rappelé</option>
                                                         <option value="RDV">RDV</option>
                                                         <option value="ANNULE">Annulé</option>
+                                                        <option value="PAS_FAIT_DE_DEMANDE">Pas fait de demande</option>
                                                     </select>
                                                 </td>
                                                 <td>
@@ -1735,6 +1755,517 @@ const AdminDashboard = () => {
                                 </div>
                             </div>
                         )}
+                    </>
+                )}
+
+                {/* Statistics Tab */}
+                {activeTab === 'statistics' && (
+                    <>
+                        <div className="card" style={{ marginBottom: '24px' }}>
+                            <div className="card-header">
+                                <h2>📊 Statistiques Globales</h2>
+                            </div>
+                            <div className="table-container">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Métrique</th>
+                                            <th>Nombre</th>
+                                            <th>Pourcentage</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td style={{ fontWeight: 600 }}>Total des Leads</td>
+                                            <td>
+                                                <span style={{
+                                                    background: '#667eea',
+                                                    color: 'white',
+                                                    padding: '4px 12px',
+                                                    borderRadius: '12px',
+                                                    fontSize: '13px',
+                                                    fontWeight: 600
+                                                }}>
+                                                    {leads.length}
+                                                </span>
+                                            </td>
+                                            <td>100%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>RDV</td>
+                                            <td>
+                                                <span style={{
+                                                    background: '#c6f6d5',
+                                                    color: '#22543d',
+                                                    padding: '4px 12px',
+                                                    borderRadius: '12px',
+                                                    fontSize: '13px',
+                                                    fontWeight: 600
+                                                }}>
+                                                    {leads.filter(l => l.status === 'RDV').length}
+                                                </span>
+                                            </td>
+                                            <td>{leads.length > 0 ? ((leads.filter(l => l.status === 'RDV').length / leads.length) * 100).toFixed(1) : 0}%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Annulé</td>
+                                            <td>
+                                                <span style={{
+                                                    background: '#fef5e7',
+                                                    color: '#744210',
+                                                    padding: '4px 12px',
+                                                    borderRadius: '12px',
+                                                    fontSize: '13px',
+                                                    fontWeight: 600
+                                                }}>
+                                                    {leads.filter(l => l.status === 'ANNULE').length}
+                                                </span>
+                                            </td>
+                                            <td>{leads.length > 0 ? ((leads.filter(l => l.status === 'ANNULE').length / leads.length) * 100).toFixed(1) : 0}%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>NRP</td>
+                                            <td>
+                                                <span style={{
+                                                    background: '#fed7d7',
+                                                    color: '#c53030',
+                                                    padding: '4px 12px',
+                                                    borderRadius: '12px',
+                                                    fontSize: '13px',
+                                                    fontWeight: 600
+                                                }}>
+                                                    {leads.filter(l => l.status === 'NRP').length}
+                                                </span>
+                                            </td>
+                                            <td>{leads.length > 0 ? ((leads.filter(l => l.status === 'NRP').length / leads.length) * 100).toFixed(1) : 0}%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>A rappelé</td>
+                                            <td>
+                                                <span style={{
+                                                    background: '#bee3f8',
+                                                    color: '#2c5282',
+                                                    padding: '4px 12px',
+                                                    borderRadius: '12px',
+                                                    fontSize: '13px',
+                                                    fontWeight: 600
+                                                }}>
+                                                    {leads.filter(l => l.status === 'A_RAPPELE').length}
+                                                </span>
+                                            </td>
+                                            <td>{leads.length > 0 ? ((leads.filter(l => l.status === 'A_RAPPELE').length / leads.length) * 100).toFixed(1) : 0}%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Pas fait de demande</td>
+                                            <td>
+                                                <span style={{
+                                                    background: '#e9d5ff',
+                                                    color: '#6b21a8',
+                                                    padding: '4px 12px',
+                                                    borderRadius: '12px',
+                                                    fontSize: '13px',
+                                                    fontWeight: 600
+                                                }}>
+                                                    {leads.filter(l => l.status === 'PAS_FAIT_DE_DEMANDE').length}
+                                                </span>
+                                            </td>
+                                            <td>{leads.length > 0 ? ((leads.filter(l => l.status === 'PAS_FAIT_DE_DEMANDE').length / leads.length) * 100).toFixed(1) : 0}%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sans statut</td>
+                                            <td>
+                                                <span style={{
+                                                    background: '#f7f7f7',
+                                                    color: '#888',
+                                                    padding: '4px 12px',
+                                                    borderRadius: '12px',
+                                                    fontSize: '13px',
+                                                    fontWeight: 600
+                                                }}>
+                                                    {leads.filter(l => !l.status).length}
+                                                </span>
+                                            </td>
+                                            <td>{leads.length > 0 ? ((leads.filter(l => !l.status).length / leads.length) * 100).toFixed(1) : 0}%</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        {/* Statistics by Product Type */}
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '20px' }}>
+                            {/* PAC Statistics */}
+                            <div className="card">
+                                <div className="card-header">
+                                    <h2>📊 Statistiques PAC</h2>
+                                </div>
+                                <div className="table-container">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Métrique</th>
+                                                <th>Nombre</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td style={{ fontWeight: 600 }}>Total PAC</td>
+                                                <td>
+                                                    <span style={{
+                                                        background: '#667eea',
+                                                        color: 'white',
+                                                        padding: '4px 12px',
+                                                        borderRadius: '12px',
+                                                        fontSize: '13px',
+                                                        fontWeight: 600
+                                                    }}>
+                                                        {leads.filter(l => l.type === 'PAC').length}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>RDV</td>
+                                                <td>
+                                                    <span style={{
+                                                        background: '#c6f6d5',
+                                                        color: '#22543d',
+                                                        padding: '4px 12px',
+                                                        borderRadius: '12px',
+                                                        fontSize: '13px',
+                                                        fontWeight: 600
+                                                    }}>
+                                                        {leads.filter(l => l.type === 'PAC' && l.status === 'RDV').length}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Annulé</td>
+                                                <td>
+                                                    <span style={{
+                                                        background: '#fef5e7',
+                                                        color: '#744210',
+                                                        padding: '4px 12px',
+                                                        borderRadius: '12px',
+                                                        fontSize: '13px',
+                                                        fontWeight: 600
+                                                    }}>
+                                                        {leads.filter(l => l.type === 'PAC' && l.status === 'ANNULE').length}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>NRP</td>
+                                                <td>
+                                                    <span style={{
+                                                        background: '#fed7d7',
+                                                        color: '#c53030',
+                                                        padding: '4px 12px',
+                                                        borderRadius: '12px',
+                                                        fontSize: '13px',
+                                                        fontWeight: 600
+                                                    }}>
+                                                        {leads.filter(l => l.type === 'PAC' && l.status === 'NRP').length}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>A rappelé</td>
+                                                <td>
+                                                    <span style={{
+                                                        background: '#bee3f8',
+                                                        color: '#2c5282',
+                                                        padding: '4px 12px',
+                                                        borderRadius: '12px',
+                                                        fontSize: '13px',
+                                                        fontWeight: 600
+                                                    }}>
+                                                        {leads.filter(l => l.type === 'PAC' && l.status === 'A_RAPPELE').length}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Pas fait de demande</td>
+                                                <td>
+                                                    <span style={{
+                                                        background: '#e9d5ff',
+                                                        color: '#6b21a8',
+                                                        padding: '4px 12px',
+                                                        borderRadius: '12px',
+                                                        fontSize: '13px',
+                                                        fontWeight: 600
+                                                    }}>
+                                                        {leads.filter(l => l.type === 'PAC' && l.status === 'PAS_FAIT_DE_DEMANDE').length}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Sans statut</td>
+                                                <td>
+                                                    <span style={{
+                                                        background: '#f7f7f7',
+                                                        color: '#888',
+                                                        padding: '4px 12px',
+                                                        borderRadius: '12px',
+                                                        fontSize: '13px',
+                                                        fontWeight: 600
+                                                    }}>
+                                                        {leads.filter(l => l.type === 'PAC' && !l.status).length}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            {/* PV Statistics */}
+                            <div className="card">
+                                <div className="card-header">
+                                    <h2>📊 Statistiques PV</h2>
+                                </div>
+                                <div className="table-container">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Métrique</th>
+                                                <th>Nombre</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td style={{ fontWeight: 600 }}>Total PV</td>
+                                                <td>
+                                                    <span style={{
+                                                        background: '#667eea',
+                                                        color: 'white',
+                                                        padding: '4px 12px',
+                                                        borderRadius: '12px',
+                                                        fontSize: '13px',
+                                                        fontWeight: 600
+                                                    }}>
+                                                        {leads.filter(l => l.type === 'PV').length}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>RDV</td>
+                                                <td>
+                                                    <span style={{
+                                                        background: '#c6f6d5',
+                                                        color: '#22543d',
+                                                        padding: '4px 12px',
+                                                        borderRadius: '12px',
+                                                        fontSize: '13px',
+                                                        fontWeight: 600
+                                                    }}>
+                                                        {leads.filter(l => l.type === 'PV' && l.status === 'RDV').length}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Annulé</td>
+                                                <td>
+                                                    <span style={{
+                                                        background: '#fef5e7',
+                                                        color: '#744210',
+                                                        padding: '4px 12px',
+                                                        borderRadius: '12px',
+                                                        fontSize: '13px',
+                                                        fontWeight: 600
+                                                    }}>
+                                                        {leads.filter(l => l.type === 'PV' && l.status === 'ANNULE').length}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>NRP</td>
+                                                <td>
+                                                    <span style={{
+                                                        background: '#fed7d7',
+                                                        color: '#c53030',
+                                                        padding: '4px 12px',
+                                                        borderRadius: '12px',
+                                                        fontSize: '13px',
+                                                        fontWeight: 600
+                                                    }}>
+                                                        {leads.filter(l => l.type === 'PV' && l.status === 'NRP').length}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>A rappelé</td>
+                                                <td>
+                                                    <span style={{
+                                                        background: '#bee3f8',
+                                                        color: '#2c5282',
+                                                        padding: '4px 12px',
+                                                        borderRadius: '12px',
+                                                        fontSize: '13px',
+                                                        fontWeight: 600
+                                                    }}>
+                                                        {leads.filter(l => l.type === 'PV' && l.status === 'A_RAPPELE').length}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Pas fait de demande</td>
+                                                <td>
+                                                    <span style={{
+                                                        background: '#e9d5ff',
+                                                        color: '#6b21a8',
+                                                        padding: '4px 12px',
+                                                        borderRadius: '12px',
+                                                        fontSize: '13px',
+                                                        fontWeight: 600
+                                                    }}>
+                                                        {leads.filter(l => l.type === 'PV' && l.status === 'PAS_FAIT_DE_DEMANDE').length}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Sans statut</td>
+                                                <td>
+                                                    <span style={{
+                                                        background: '#f7f7f7',
+                                                        color: '#888',
+                                                        padding: '4px 12px',
+                                                        borderRadius: '12px',
+                                                        fontSize: '13px',
+                                                        fontWeight: 600
+                                                    }}>
+                                                        {leads.filter(l => l.type === 'PV' && !l.status).length}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            {/* ITE Statistics */}
+                            <div className="card">
+                                <div className="card-header">
+                                    <h2>📊 Statistiques ITE</h2>
+                                </div>
+                                <div className="table-container">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Métrique</th>
+                                                <th>Nombre</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td style={{ fontWeight: 600 }}>Total ITE</td>
+                                                <td>
+                                                    <span style={{
+                                                        background: '#667eea',
+                                                        color: 'white',
+                                                        padding: '4px 12px',
+                                                        borderRadius: '12px',
+                                                        fontSize: '13px',
+                                                        fontWeight: 600
+                                                    }}>
+                                                        {leads.filter(l => l.type === 'ITE').length}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>RDV</td>
+                                                <td>
+                                                    <span style={{
+                                                        background: '#c6f6d5',
+                                                        color: '#22543d',
+                                                        padding: '4px 12px',
+                                                        borderRadius: '12px',
+                                                        fontSize: '13px',
+                                                        fontWeight: 600
+                                                    }}>
+                                                        {leads.filter(l => l.type === 'ITE' && l.status === 'RDV').length}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Annulé</td>
+                                                <td>
+                                                    <span style={{
+                                                        background: '#fef5e7',
+                                                        color: '#744210',
+                                                        padding: '4px 12px',
+                                                        borderRadius: '12px',
+                                                        fontSize: '13px',
+                                                        fontWeight: 600
+                                                    }}>
+                                                        {leads.filter(l => l.type === 'ITE' && l.status === 'ANNULE').length}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>NRP</td>
+                                                <td>
+                                                    <span style={{
+                                                        background: '#fed7d7',
+                                                        color: '#c53030',
+                                                        padding: '4px 12px',
+                                                        borderRadius: '12px',
+                                                        fontSize: '13px',
+                                                        fontWeight: 600
+                                                    }}>
+                                                        {leads.filter(l => l.type === 'ITE' && l.status === 'NRP').length}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>A rappelé</td>
+                                                <td>
+                                                    <span style={{
+                                                        background: '#bee3f8',
+                                                        color: '#2c5282',
+                                                        padding: '4px 12px',
+                                                        borderRadius: '12px',
+                                                        fontSize: '13px',
+                                                        fontWeight: 600
+                                                    }}>
+                                                        {leads.filter(l => l.type === 'ITE' && l.status === 'A_RAPPELE').length}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Pas fait de demande</td>
+                                                <td>
+                                                    <span style={{
+                                                        background: '#e9d5ff',
+                                                        color: '#6b21a8',
+                                                        padding: '4px 12px',
+                                                        borderRadius: '12px',
+                                                        fontSize: '13px',
+                                                        fontWeight: 600
+                                                    }}>
+                                                        {leads.filter(l => l.type === 'ITE' && l.status === 'PAS_FAIT_DE_DEMANDE').length}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Sans statut</td>
+                                                <td>
+                                                    <span style={{
+                                                        background: '#f7f7f7',
+                                                        color: '#888',
+                                                        padding: '4px 12px',
+                                                        borderRadius: '12px',
+                                                        fontSize: '13px',
+                                                        fontWeight: 600
+                                                    }}>
+                                                        {leads.filter(l => l.type === 'ITE' && !l.status).length}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </>
                 )}
             </div>
