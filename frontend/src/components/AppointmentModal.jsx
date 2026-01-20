@@ -50,7 +50,7 @@ const AppointmentModal = ({ show, handleClose, leadData, onAppointmentCreated, i
         try {
             const token = getToken();
             console.log('🔍 Searching for:', searchTerm);
-            const response = await axios.get(`${API_BASE_URL}/api/leads?search=${searchTerm}/api`, {
+            const response = await axios.get(`${API_BASE_URL}/api/leads?search=${searchTerm}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             console.log('📋 Results found:', response.data.length);

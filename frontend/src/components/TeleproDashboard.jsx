@@ -257,7 +257,7 @@ const TeleproDashboard = () => {
 
         try {
             const token = getToken();
-            await axios.delete(`${API_BASE_URL}/api/appointments/${appointmentId}/api`, {
+            await axios.delete(`${API_BASE_URL}/api/appointments/${appointmentId}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             fetchMyAppointments();

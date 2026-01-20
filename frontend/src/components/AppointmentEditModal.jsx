@@ -51,7 +51,7 @@ const AppointmentEditModal = ({ show, handleClose, appointmentData, onAppointmen
 
         try {
             const token = getToken();
-            await axios.put(`${API_BASE_URL}/api/appointments/${appointmentData.id}/api`, formData, {
+            await axios.put(`${API_BASE_URL}/api/appointments/${appointmentData.id}`, formData, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 
