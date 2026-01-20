@@ -1702,7 +1702,7 @@ const AdminDashboard = () => {
                                                                                 top: `${topPosition}px`,
                                                                                 left: '4px',
                                                                                 right: '4px',
-                                                                                height: '56px',
+                                                                                height: '75px',
                                                                                 backgroundColor: appointment.status === 'ANNULE' ? '#fed7d7' :
                                                                                     appointment.status === 'PAS_SIGNE' ? '#fef5e7' :
                                                                                     appointment.status === 'SIGNE' ? '#c6f6d5' : '#f7fafc',
@@ -1711,7 +1711,7 @@ const AdminDashboard = () => {
                                                                                     appointment.status === 'PAS_SIGNE' ? '#9a7b4f' :
                                                                                     appointment.status === 'SIGNE' ? '#38a169' : '#cbd5e0',
                                                                                 borderRadius: '4px',
-                                                                                padding: '4px 6px',
+                                                                                padding: '6px 8px',
                                                                                 cursor: 'pointer',
                                                                                 overflow: 'hidden',
                                                                                 boxShadow: '0 1px 3px rgba(0,0,0,0.12)',
@@ -1731,17 +1731,17 @@ const AdminDashboard = () => {
                                                                             }}
                                                                             title={`${appointment.heureRdv} - ${appointment.prenom} ${appointment.nom}\n${appointment.telephone}\n${appointment.adresse}\nTélépro: ${appointment.agent?.nom || appointment.agent?.email}`}
                                                                         >
-                                                                            <div style={{ fontWeight: 700, marginBottom: '2px', color: '#333' }}>
+                                                                            <div style={{ fontWeight: 700, marginBottom: '3px', color: '#333', fontSize: '12px' }}>
                                                                                 {appointment.heureRdv}
                                                                             </div>
-                                                                            <div style={{ fontWeight: 600, marginBottom: '2px', color: '#333', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                                                            <div style={{ fontWeight: 600, marginBottom: '3px', color: '#333', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', fontSize: '11px' }}>
                                                                                 {appointment.prenom} {appointment.nom}
                                                                             </div>
-                                                                            <div style={{ fontSize: '10px', color: '#666', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                                                            <div style={{ fontSize: '10px', color: '#666', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginBottom: '2px' }}>
                                                                                 📞 {appointment.telephone}
                                                                             </div>
-                                                                            <div style={{ fontSize: '10px', color: '#666', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginTop: '2px' }}>
-                                                                                Telepro: {appointment.agent?.nom || appointment.agent?.email}
+                                                                            <div style={{ fontSize: '10px', color: '#555', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', fontWeight: 500 }}>
+                                                                                👤 {appointment.agent?.nom || appointment.agent?.email}
                                                                             </div>
                                                                         </div>
                                                                     );
