@@ -21,6 +21,44 @@ app.use('/api/users', authMiddleware, roleMiddleware('ADMIN'), userRoutes);
 app.use('/api/leads', authMiddleware, leadRoutes);
 app.use('/api/appointments', authMiddleware, appointmentRoutes);
 
+// ROUTE TEMPORAIRE - Créer l'admin (à supprimer après utilisation)
+app.get('/api/setup-admin', async (req, res) => {
+    try {
+        const bcrypt = require('bcrypt');
+        const email = 'DavidParienti.eco@gmail.com';
+        const nom = 'David';
+        const password = 'David2208!';
+
+        // Vérifier si l'admin existe déjà
+        const existingAdmin = await prisma.user.findUnique({
+            where: { email }
+        });
+
+        if (existingAdmin) {
+            return res.json({ message: '✅ Admin existe déjà !', admin: { email, nom } });
+        }
+
+        // Créer l'admin
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const admin = await prisma.user.create({
+            data: {
+                email,
+                nom,
+                password: hashedPassword,
+                role: 'ADMIN'
+            }
+        });
+
+        res.json({
+            message: '✅ Admin créé avec succès !',
+            admin: { email: admin.email, nom: admin.nom }
+        });
+    } catch (error) {
+        console.error('Erreur création admin:', error);
+        res.status(500).json({ error: 'Erreur lors de la création de l\'admin' });
+    }
+});
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
