@@ -23,6 +23,8 @@ const AdminDashboard = () => {
     const [selectedLeads, setSelectedLeads] = useState([]);
     const [selectedTelepro, setSelectedTelepro] = useState('');
     const [showCreateTelepro, setShowCreateTelepro] = useState(false);
+    const [showEditTelepro, setShowEditTelepro] = useState(false);
+    const [editingTelepro, setEditingTelepro] = useState(null);
     const [showAppointmentModal, setShowAppointmentModal] = useState(false);
     const [showAppointmentEditModal, setShowAppointmentEditModal] = useState(false);
     const [selectedAppointment, setSelectedAppointment] = useState(null);
@@ -262,6 +264,62 @@ const AdminDashboard = () => {
             fetchTelepros();
         } catch (error) {
             showMessage('error', 'Erreur lors de la création du télépro');
+        }
+    };
+
+    const handleEditTelepro = (telepro) => {
+        setEditingTelepro({
+            id: telepro.id,
+            nom: telepro.nom || '',
+            email: telepro.email,
+            password: '' // Empty by default, only fill if changing password
+        });
+        setShowEditTelepro(true);
+    };
+
+    const handleUpdateTelepro = async (e) => {
+        e.preventDefault();
+        try {
+            const token = getToken();
+            const updateData = {
+                nom: editingTelepro.nom,
+                email: editingTelepro.email,
+                role: 'TELEPRO'
+            };
+
+            // Only include password if it was changed
+            if (editingTelepro.password && editingTelepro.password.trim() !== '') {
+                updateData.password = editingTelepro.password;
+            }
+
+            await axios.put(`${API_BASE_URL}/api/users/${editingTelepro.id}`,
+                updateData,
+                { headers: { Authorization: `Bearer ${token}` }}
+            );
+            showMessage('success', 'Télépro modifié avec succès');
+            setShowEditTelepro(false);
+            setEditingTelepro(null);
+            fetchTelepros();
+        } catch (error) {
+            showMessage('error', 'Erreur lors de la modification du télépro');
+        }
+    };
+
+    const handleDeleteTelepro = async (teleproId) => {
+        if (!window.confirm('Êtes-vous sûr de vouloir supprimer ce télépro ? Tous ses leads seront désassignés.')) {
+            return;
+        }
+
+        try {
+            const token = getToken();
+            await axios.delete(`${API_BASE_URL}/api/users/${teleproId}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            showMessage('success', 'Télépro supprimé avec succès');
+            fetchTelepros();
+            fetchLeads(); // Refresh leads as they may be unassigned now
+        } catch (error) {
+            showMessage('error', 'Erreur lors de la suppression du télépro');
         }
     };
 
@@ -1230,6 +1288,58 @@ const AdminDashboard = () => {
                                 </div>
                             )}
 
+                            {showEditTelepro && editingTelepro && (
+                                <div style={{ padding: '20px', background: '#fff3cd', borderRadius: '8px', marginBottom: '20px', border: '2px solid #ffc107' }}>
+                                    <h3 style={{ fontSize: '16px', marginBottom: '16px' }}>Modifier le télépro</h3>
+                                    <form onSubmit={handleUpdateTelepro}>
+                                        <div className="form-group">
+                                            <label>Nom</label>
+                                            <input
+                                                type="text"
+                                                value={editingTelepro.nom}
+                                                onChange={(e) => setEditingTelepro({...editingTelepro, nom: e.target.value})}
+                                                placeholder="Nom du télépro"
+                                            />
+                                        </div>
+                                        <div className="form-group">
+                                            <label>Email *</label>
+                                            <input
+                                                type="email"
+                                                value={editingTelepro.email}
+                                                onChange={(e) => setEditingTelepro({...editingTelepro, email: e.target.value})}
+                                                placeholder="telepro@example.com"
+                                                required
+                                            />
+                                        </div>
+                                        <div className="form-group">
+                                            <label>Nouveau mot de passe (laisser vide pour ne pas changer)</label>
+                                            <input
+                                                type="password"
+                                                value={editingTelepro.password}
+                                                onChange={(e) => setEditingTelepro({...editingTelepro, password: e.target.value})}
+                                                placeholder="Minimum 8 caractères"
+                                                minLength="8"
+                                            />
+                                        </div>
+                                        <div style={{ display: 'flex', gap: '12px' }}>
+                                            <button type="submit" className="btn btn-primary">
+                                                Mettre à jour
+                                            </button>
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    setShowEditTelepro(false);
+                                                    setEditingTelepro(null);
+                                                }}
+                                                className="btn btn-secondary"
+                                            >
+                                                Annuler
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            )}
+
                             <div className="table-container">
                                 <table>
                                     <thead>
@@ -1238,12 +1348,13 @@ const AdminDashboard = () => {
                                             <th>Email</th>
                                             <th>Date de création</th>
                                             <th>Nombre de leads assignés</th>
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {telepros.length === 0 ? (
                                             <tr>
-                                                <td colSpan="4" style={{ textAlign: 'center', padding: '40px', color: '#999' }}>
+                                                <td colSpan="5" style={{ textAlign: 'center', padding: '40px', color: '#999' }}>
                                                     Aucun télépro créé. Créez votre premier télépro pour commencer.
                                                 </td>
                                             </tr>
@@ -1264,6 +1375,34 @@ const AdminDashboard = () => {
                                                         }}>
                                                             {leads.filter(l => l.assignedToId === telepro.id).length} leads
                                                         </span>
+                                                    </td>
+                                                    <td>
+                                                        <div style={{ display: 'flex', gap: '8px' }}>
+                                                            <button
+                                                                onClick={() => handleEditTelepro(telepro)}
+                                                                className="btn"
+                                                                style={{
+                                                                    padding: '6px 14px',
+                                                                    fontSize: '13px',
+                                                                    background: '#667eea',
+                                                                    color: 'white'
+                                                                }}
+                                                            >
+                                                                ✏️ Modifier
+                                                            </button>
+                                                            <button
+                                                                onClick={() => handleDeleteTelepro(telepro.id)}
+                                                                className="btn"
+                                                                style={{
+                                                                    padding: '6px 14px',
+                                                                    fontSize: '13px',
+                                                                    background: '#e74c3c',
+                                                                    color: 'white'
+                                                                }}
+                                                            >
+                                                                🗑️ Supprimer
+                                                            </button>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             ))

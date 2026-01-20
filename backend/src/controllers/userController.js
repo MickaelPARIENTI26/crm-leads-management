@@ -53,17 +53,30 @@ exports.getUserById = async (req, res) => {
 // Update a user
 exports.updateUser = async (req, res) => {
     const { id } = req.params;
-    const { email, role } = req.body;
+    const { email, role, nom, password } = req.body;
 
     try {
         // Convertir l'email en minuscules si fourni
         const emailLowerCase = email ? email.toLowerCase() : undefined;
+
+        const updateData = {
+            email: emailLowerCase,
+            role,
+        };
+
+        // Add nom if provided
+        if (nom !== undefined) {
+            updateData.nom = nom;
+        }
+
+        // Hash and add password if provided
+        if (password && password.trim() !== '') {
+            updateData.password = await bcrypt.hash(password, 10);
+        }
+
         const user = await prisma.user.update({
             where: { id },
-            data: {
-                email: emailLowerCase,
-                role,
-            },
+            data: updateData,
         });
         res.status(200).json({ message: 'User updated successfully', user });
     } catch (error) {
