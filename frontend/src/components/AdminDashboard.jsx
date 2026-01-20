@@ -1735,7 +1735,7 @@ const AdminDashboard = () => {
                                                                                 {appointment.heureRdv}
                                                                             </div>
                                                                             <div style={{ fontWeight: 600, marginBottom: '3px', color: '#333', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', fontSize: '11px' }}>
-                                                                                {appointment.prenom} {appointment.nom}
+                                                                                ({appointment.lead?.type || 'N/A'}) {appointment.prenom} {appointment.nom}
                                                                             </div>
                                                                             <div style={{ fontSize: '10px', color: '#666', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginBottom: '2px' }}>
                                                                                 📞 {appointment.telephone}
