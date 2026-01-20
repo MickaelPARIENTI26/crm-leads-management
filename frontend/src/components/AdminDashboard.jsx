@@ -36,6 +36,8 @@ const AdminDashboard = () => {
     const [typeFilter, setTypeFilter] = useState('ALL');
     const [statusFilter, setStatusFilter] = useState('ALL');
     const [searchQuery, setSearchQuery] = useState('');
+    const [commentValues, setCommentValues] = useState({});
+    const [editingCommentId, setEditingCommentId] = useState(null);
     const history = useHistory();
 
     // Get start of week (Monday)
@@ -403,6 +405,33 @@ const AdminDashboard = () => {
             showMessage('success', 'Status mis à jour');
         } catch (error) {
             showMessage('error', 'Erreur lors de la mise à jour du status');
+        }
+    };
+
+    const handleCommentChange = (leadId, value) => {
+        setCommentValues(prev => ({
+            ...prev,
+            [leadId]: value
+        }));
+    };
+
+    const handleCommentBlur = async (leadId) => {
+        const newComment = commentValues[leadId];
+        if (newComment === undefined) return;
+
+        try {
+            const token = getToken();
+            await axios.put(`${API_BASE_URL}/api/leads/${leadId}`,
+                { commentaire: newComment },
+                { headers: { Authorization: `Bearer ${token}` }}
+            );
+            // Update local leads state
+            setLeads(prev => prev.map(lead =>
+                lead.id === leadId ? { ...lead, commentaire: newComment } : lead
+            ));
+            setEditingCommentId(null);
+        } catch (error) {
+            console.error('Error updating comment:', error);
         }
     };
 
@@ -841,13 +870,14 @@ const AdminDashboard = () => {
                                     <th>Téléphone</th>
                                     <th>Code Postal</th>
                                     <th>Status</th>
+                                    <th>Commentaire</th>
                                     <th>Assigné à</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {filteredLeads.length === 0 ? (
                                     <tr>
-                                        <td colSpan="11" style={{ textAlign: 'center', padding: '40px', color: '#999' }}>
+                                        <td colSpan="12" style={{ textAlign: 'center', padding: '40px', color: '#999' }}>
                                             {leads.length === 0 ? 'Aucun lead disponible. Importez des leads pour commencer.' : 'Aucun lead ne correspond aux filtres sélectionnés.'}
                                         </td>
                                     </tr>
@@ -910,6 +940,24 @@ const AdminDashboard = () => {
                                                     <option value="ANNULE">Annulé</option>
                                                     <option value="PAS_FAIT_DE_DEMANDE">Pas fait de demande</option>
                                                 </select>
+                                            </td>
+                                            <td style={{ maxWidth: '250px' }}>
+                                                <input
+                                                    type="text"
+                                                    value={commentValues[lead.id] !== undefined ? commentValues[lead.id] : (lead.commentaire || '')}
+                                                    onChange={(e) => handleCommentChange(lead.id, e.target.value)}
+                                                    onBlur={() => handleCommentBlur(lead.id)}
+                                                    onFocus={() => setEditingCommentId(lead.id)}
+                                                    placeholder="Ajouter un commentaire..."
+                                                    style={{
+                                                        width: '100%',
+                                                        padding: '6px 8px',
+                                                        border: editingCommentId === lead.id ? '2px solid #667eea' : '1px solid #ddd',
+                                                        borderRadius: '4px',
+                                                        fontSize: '13px',
+                                                        transition: 'border 0.2s ease'
+                                                    }}
+                                                />
                                             </td>
                                             <td>
                                                 {lead.assignedTo ? (
@@ -1143,13 +1191,14 @@ const AdminDashboard = () => {
                                         <th>Téléphone</th>
                                         <th>Code Postal</th>
                                         <th>Status</th>
+                                        <th>Commentaire</th>
                                         <th>Assigné à</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {filteredLeads.length === 0 ? (
                                         <tr>
-                                            <td colSpan="11" style={{ textAlign: 'center', padding: '40px', color: '#999' }}>
+                                            <td colSpan="12" style={{ textAlign: 'center', padding: '40px', color: '#999' }}>
                                                 {leads.length === 0 ? 'Aucun lead disponible. Importez des leads pour commencer.' : 'Aucun lead ne correspond aux filtres sélectionnés.'}
                                             </td>
                                         </tr>
@@ -1212,6 +1261,24 @@ const AdminDashboard = () => {
                                                         <option value="ANNULE">Annulé</option>
                                                         <option value="PAS_FAIT_DE_DEMANDE">Pas fait de demande</option>
                                                     </select>
+                                                </td>
+                                                <td style={{ maxWidth: '250px' }}>
+                                                    <input
+                                                        type="text"
+                                                        value={commentValues[lead.id] !== undefined ? commentValues[lead.id] : (lead.commentaire || '')}
+                                                        onChange={(e) => handleCommentChange(lead.id, e.target.value)}
+                                                        onBlur={() => handleCommentBlur(lead.id)}
+                                                        onFocus={() => setEditingCommentId(lead.id)}
+                                                        placeholder="Ajouter un commentaire..."
+                                                        style={{
+                                                            width: '100%',
+                                                            padding: '6px 8px',
+                                                            border: editingCommentId === lead.id ? '2px solid #667eea' : '1px solid #ddd',
+                                                            borderRadius: '4px',
+                                                            fontSize: '13px',
+                                                            transition: 'border 0.2s ease'
+                                                        }}
+                                                    />
                                                 </td>
                                                 <td>
                                                     {lead.assignedTo ? (
