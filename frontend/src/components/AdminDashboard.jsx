@@ -124,7 +124,7 @@ const AdminDashboard = () => {
     const fetchLeads = async () => {
         try {
             const token = getToken();
-            const response = await axios.get(`${API_BASE_URL}`/api/leads', {
+            const response = await axios.get(`${API_BASE_URL}/api/leads`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setLeads(response.data);
@@ -147,7 +147,7 @@ const AdminDashboard = () => {
     const fetchTelepros = async () => {
         try {
             const token = getToken();
-            const response = await axios.get(`${API_BASE_URL}`/api/users', {
+            const response = await axios.get(`${API_BASE_URL}/api/users`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             const teleprosList = response.data.filter(u => u.role === 'TELEPRO');
@@ -161,7 +161,7 @@ const AdminDashboard = () => {
     const fetchAppointments = async () => {
         try {
             const token = getToken();
-            const response = await axios.get(`${API_BASE_URL}`/api/appointments', {
+            const response = await axios.get(`${API_BASE_URL}/api/appointments`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setAppointments(response.data);
@@ -200,7 +200,7 @@ const AdminDashboard = () => {
 
         try {
             const token = getToken();
-            await axios.post(`${API_BASE_URL}`/api/leads/assign',
+            await axios.post(`${API_BASE_URL}/api/leads/assign`,
                 { leadIds: selectedLeads, assignedToId: selectedTelepro },
                 { headers: { Authorization: `Bearer ${token}` }}
             );
@@ -216,7 +216,7 @@ const AdminDashboard = () => {
     const handleUnassignLead = async (leadId) => {
         try {
             const token = getToken();
-            await axios.post(`${API_BASE_URL}`/api/leads/assign',
+            await axios.post(`${API_BASE_URL}/api/leads/assign`,
                 { leadIds: [leadId], assignedToId: null },
                 { headers: { Authorization: `Bearer ${token}` }}
             );
@@ -235,7 +235,7 @@ const AdminDashboard = () => {
 
         try {
             const token = getToken();
-            await axios.post(`${API_BASE_URL}`/api/leads/assign',
+            await axios.post(`${API_BASE_URL}/api/leads/assign`,
                 { leadIds: selectedLeads, assignedToId: null },
                 { headers: { Authorization: `Bearer ${token}` }}
             );
@@ -252,7 +252,7 @@ const AdminDashboard = () => {
         e.preventDefault();
         try {
             const token = getToken();
-            await axios.post(`${API_BASE_URL}`/api/users',
+            await axios.post(`${API_BASE_URL}/api/users`,
                 { ...newTelepro, role: 'TELEPRO' },
                 { headers: { Authorization: `Bearer ${token}` }}
             );

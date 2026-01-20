@@ -100,7 +100,7 @@ const TeleproDashboard = () => {
         setLoading(true);
         try {
             const token = getToken();
-            const response = await axios.get(`${API_BASE_URL}`/api/leads/my', {
+            const response = await axios.get(`${API_BASE_URL}/api/leads/my`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setLeads(response.data);
@@ -115,7 +115,7 @@ const TeleproDashboard = () => {
     const fetchMyAppointments = async () => {
         try {
             const token = getToken();
-            const response = await axios.get(`${API_BASE_URL}`/api/appointments/my', {
+            const response = await axios.get(`${API_BASE_URL}/api/appointments/my`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setAppointments(response.data);
@@ -127,7 +127,7 @@ const TeleproDashboard = () => {
     const fetchAllAppointments = async () => {
         try {
             const token = getToken();
-            const response = await axios.get(`${API_BASE_URL}`/api/appointments', {
+            const response = await axios.get(`${API_BASE_URL}/api/appointments`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setAllAppointments(response.data);

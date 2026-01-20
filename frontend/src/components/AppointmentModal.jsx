@@ -103,7 +103,7 @@ const AppointmentModal = ({ show, handleClose, leadData, onAppointmentCreated, i
         setLoading(true);
         try {
             const token = getToken();
-            const response = await axios.post(`${API_BASE_URL}`/api/appointments',
+            const response = await axios.post(`${API_BASE_URL}/api/appointments`,
                 formData,
                 { headers: { Authorization: `Bearer ${token}` }}
             );

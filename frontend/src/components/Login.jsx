@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { login } from '../services/api';
+import { login } from '../services/api`;
 import { setToken } from '../utils/auth';
 
 const Login = () => {
