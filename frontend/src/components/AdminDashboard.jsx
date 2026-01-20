@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { API_BASE_URL } from '../config';
 import { useHistory } from 'react-router-dom';
-import { API_BASE_URL } from '../config';
 import axios from 'axios';
+import { API_BASE_URL } from '../config';
 import { getToken, removeToken, getUserRole } from '../utils/auth';
 import AppointmentModal from './AppointmentModal';
 import AppointmentEditModal from './AppointmentEditModal';

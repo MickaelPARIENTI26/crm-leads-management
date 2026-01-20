@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { API_BASE_URL } from '../config';
 import axios from 'axios';
-import { API_BASE_URL } from '../config';
 import { getToken } from '../utils/auth';
+import { API_BASE_URL } from '../config';
 
 const AppointmentEditModal = ({ show, handleClose, appointmentData, onAppointmentUpdated }) => {
     const [formData, setFormData] = useState({
