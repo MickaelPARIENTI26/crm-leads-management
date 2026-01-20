@@ -9,7 +9,9 @@ const login = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        const user = await prisma.user.findUnique({ where: { email } });
+        // Convertir l'email en minuscules pour la recherche (insensible à la casse)
+        const emailLowerCase = email.toLowerCase();
+        const user = await prisma.user.findUnique({ where: { email: emailLowerCase } });
 
         if (!user) {
             return res.status(401).json({ message: 'Invalid email or password' });

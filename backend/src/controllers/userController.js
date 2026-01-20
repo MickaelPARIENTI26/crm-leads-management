@@ -6,10 +6,12 @@ exports.createUser = async (req, res) => {
     const { email, password, role, nom } = req.body;
 
     try {
+        // Convertir l'email en minuscules pour assurer la cohérence
+        const emailLowerCase = email.toLowerCase();
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = await prisma.user.create({
             data: {
-                email,
+                email: emailLowerCase,
                 password: hashedPassword,
                 role,
                 nom: nom || null,
@@ -54,10 +56,12 @@ exports.updateUser = async (req, res) => {
     const { email, role } = req.body;
 
     try {
+        // Convertir l'email en minuscules si fourni
+        const emailLowerCase = email ? email.toLowerCase() : undefined;
         const user = await prisma.user.update({
             where: { id },
             data: {
-                email,
+                email: emailLowerCase,
                 role,
             },
         });
