@@ -87,6 +87,12 @@ const parseExcelFile = (filePath) => {
 
     // Parser tous les onglets
     workbook.SheetNames.forEach(sheetName => {
+        // Skip les onglets avec "NE PAS IMPORTER" dans le nom
+        if (sheetName.toUpperCase().includes('NE PAS IMPORTER')) {
+            console.log(`Skipping sheet: ${sheetName} (contains "NE PAS IMPORTER")`);
+            return;
+        }
+
         const worksheet = workbook.Sheets[sheetName];
         const data = XLSX.utils.sheet_to_json(worksheet);
 
