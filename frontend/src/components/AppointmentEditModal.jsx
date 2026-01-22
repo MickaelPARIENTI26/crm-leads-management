@@ -183,6 +183,7 @@ const AppointmentEditModal = ({ show, handleClose, appointmentData, onAppointmen
                                 <option value="CONFIRME">Confirmé</option>
                                 <option value="PAS_SIGNE">Pas signé</option>
                                 <option value="SIGNE">Signé</option>
+                                <option value="INSTALLE">Installé</option>
                                 <option value="ANNULE">Annulé</option>
                             </select>
                         </div>

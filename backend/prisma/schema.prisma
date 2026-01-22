@@ -32,6 +32,7 @@ enum AppointmentStatus {
   ANNULE
   PAS_SIGNE
   SIGNE
+  INSTALLE
 }
 
 model User {

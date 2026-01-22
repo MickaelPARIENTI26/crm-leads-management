@@ -1598,12 +1598,14 @@ const AdminDashboard = () => {
                                                                         appointment.status === 'CONFIRME' ? '#c6f6d5' :
                                                                         appointment.status === 'ANNULE' ? '#fed7d7' :
                                                                         appointment.status === 'PAS_SIGNE' ? '#fef5e7' :
-                                                                        appointment.status === 'SIGNE' ? '#9ae6b4' : '#f7fafc',
+                                                                        appointment.status === 'SIGNE' ? '#9ae6b4' :
+                                                                        appointment.status === 'INSTALLE' ? '#e9d5ff' : '#f7fafc',
                                                                     color: appointment.status === 'EN_ATTENTE_DE_CONFIRMATION' ? '#2c5282' :
                                                                         appointment.status === 'CONFIRME' ? '#22543d' :
                                                                         appointment.status === 'ANNULE' ? '#c53030' :
                                                                         appointment.status === 'PAS_SIGNE' ? '#744210' :
-                                                                        appointment.status === 'SIGNE' ? '#1e4620' : '#718096'
+                                                                        appointment.status === 'SIGNE' ? '#1e4620' :
+                                                                        appointment.status === 'INSTALLE' ? '#6b21a8' : '#718096'
                                                                 }}
                                                             >
                                                                 <option value="">-- Sélectionner --</option>
@@ -1611,6 +1613,7 @@ const AdminDashboard = () => {
                                                                 <option value="CONFIRME">Confirmé</option>
                                                                 <option value="PAS_SIGNE">Pas signé</option>
                                                                 <option value="SIGNE">Signé</option>
+                                                                <option value="INSTALLE">Installé</option>
                                                                 <option value="ANNULE">Annulé</option>
                                                             </select>
                                                         </td>
@@ -1781,13 +1784,15 @@ const AdminDashboard = () => {
                                                                                     appointment.status === 'CONFIRME' ? '#c6f6d5' :
                                                                                     appointment.status === 'ANNULE' ? '#fed7d7' :
                                                                                     appointment.status === 'PAS_SIGNE' ? '#fef5e7' :
-                                                                                    appointment.status === 'SIGNE' ? '#9ae6b4' : '#f7fafc',
+                                                                                    appointment.status === 'SIGNE' ? '#9ae6b4' :
+                                                                                    appointment.status === 'INSTALLE' ? '#e9d5ff' : '#f7fafc',
                                                                                 border: '1px solid',
                                                                                 borderColor: appointment.status === 'EN_ATTENTE_DE_CONFIRMATION' ? '#2c5282' :
                                                                                     appointment.status === 'CONFIRME' ? '#22543d' :
                                                                                     appointment.status === 'ANNULE' ? '#c53030' :
                                                                                     appointment.status === 'PAS_SIGNE' ? '#9a7b4f' :
-                                                                                    appointment.status === 'SIGNE' ? '#38a169' : '#cbd5e0',
+                                                                                    appointment.status === 'SIGNE' ? '#38a169' :
+                                                                                    appointment.status === 'INSTALLE' ? '#6b21a8' : '#cbd5e0',
                                                                                 borderRadius: '4px',
                                                                                 padding: '6px 8px',
                                                                                 cursor: 'pointer',
