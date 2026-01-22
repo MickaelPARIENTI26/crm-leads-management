@@ -1594,15 +1594,21 @@ const AdminDashboard = () => {
                                                                     fontSize: '13px',
                                                                     fontWeight: 600,
                                                                     cursor: 'pointer',
-                                                                    backgroundColor: appointment.status === 'ANNULE' ? '#fed7d7' :
+                                                                    backgroundColor: appointment.status === 'EN_ATTENTE_DE_CONFIRMATION' ? '#bee3f8' :
+                                                                        appointment.status === 'CONFIRME' ? '#c6f6d5' :
+                                                                        appointment.status === 'ANNULE' ? '#fed7d7' :
                                                                         appointment.status === 'PAS_SIGNE' ? '#fef5e7' :
-                                                                        appointment.status === 'SIGNE' ? '#c6f6d5' : '#f7fafc',
-                                                                    color: appointment.status === 'ANNULE' ? '#c53030' :
+                                                                        appointment.status === 'SIGNE' ? '#9ae6b4' : '#f7fafc',
+                                                                    color: appointment.status === 'EN_ATTENTE_DE_CONFIRMATION' ? '#2c5282' :
+                                                                        appointment.status === 'CONFIRME' ? '#22543d' :
+                                                                        appointment.status === 'ANNULE' ? '#c53030' :
                                                                         appointment.status === 'PAS_SIGNE' ? '#744210' :
-                                                                        appointment.status === 'SIGNE' ? '#22543d' : '#718096'
+                                                                        appointment.status === 'SIGNE' ? '#1e4620' : '#718096'
                                                                 }}
                                                             >
                                                                 <option value="">-- Sélectionner --</option>
+                                                                <option value="EN_ATTENTE_DE_CONFIRMATION">En attente de confirmation</option>
+                                                                <option value="CONFIRME">Confirmé</option>
                                                                 <option value="PAS_SIGNE">Pas signé</option>
                                                                 <option value="SIGNE">Signé</option>
                                                                 <option value="ANNULE">Annulé</option>
@@ -1771,11 +1777,15 @@ const AdminDashboard = () => {
                                                                                 left: '4px',
                                                                                 right: '4px',
                                                                                 height: '75px',
-                                                                                backgroundColor: appointment.status === 'ANNULE' ? '#fed7d7' :
+                                                                                backgroundColor: appointment.status === 'EN_ATTENTE_DE_CONFIRMATION' ? '#bee3f8' :
+                                                                                    appointment.status === 'CONFIRME' ? '#c6f6d5' :
+                                                                                    appointment.status === 'ANNULE' ? '#fed7d7' :
                                                                                     appointment.status === 'PAS_SIGNE' ? '#fef5e7' :
-                                                                                    appointment.status === 'SIGNE' ? '#c6f6d5' : '#f7fafc',
+                                                                                    appointment.status === 'SIGNE' ? '#9ae6b4' : '#f7fafc',
                                                                                 border: '1px solid',
-                                                                                borderColor: appointment.status === 'ANNULE' ? '#c53030' :
+                                                                                borderColor: appointment.status === 'EN_ATTENTE_DE_CONFIRMATION' ? '#2c5282' :
+                                                                                    appointment.status === 'CONFIRME' ? '#22543d' :
+                                                                                    appointment.status === 'ANNULE' ? '#c53030' :
                                                                                     appointment.status === 'PAS_SIGNE' ? '#9a7b4f' :
                                                                                     appointment.status === 'SIGNE' ? '#38a169' : '#cbd5e0',
                                                                                 borderRadius: '4px',

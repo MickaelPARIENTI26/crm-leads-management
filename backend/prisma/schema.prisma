@@ -27,6 +27,8 @@ enum LeadType {
 }
 
 enum AppointmentStatus {
+  EN_ATTENTE_DE_CONFIRMATION
+  CONFIRME
   ANNULE
   PAS_SIGNE
   SIGNE

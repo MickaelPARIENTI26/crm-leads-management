@@ -179,6 +179,8 @@ const AppointmentEditModal = ({ show, handleClose, appointmentData, onAppointmen
                                 onChange={handleChange}
                             >
                                 <option value="">-- Sélectionner --</option>
+                                <option value="EN_ATTENTE_DE_CONFIRMATION">En attente de confirmation</option>
+                                <option value="CONFIRME">Confirmé</option>
                                 <option value="PAS_SIGNE">Pas signé</option>
                                 <option value="SIGNE">Signé</option>
                                 <option value="ANNULE">Annulé</option>

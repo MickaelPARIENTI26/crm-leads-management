@@ -1,0 +1,3 @@
+-- AlterEnum: Add EN_ATTENTE_DE_CONFIRMATION and CONFIRME to AppointmentStatus enum
+ALTER TYPE "AppointmentStatus" ADD VALUE 'EN_ATTENTE_DE_CONFIRMATION';
+ALTER TYPE "AppointmentStatus" ADD VALUE 'CONFIRME';

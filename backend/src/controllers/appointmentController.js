@@ -69,6 +69,7 @@ const createAppointment = async (req, res) => {
                 codePostal,
                 leadId: leadId || null,
                 agentId,
+                status: 'EN_ATTENTE_DE_CONFIRMATION',
             },
             include: {
                 agent: {
