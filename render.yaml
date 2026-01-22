@@ -1,0 +1,36 @@
+services:
+  # Backend API
+  - type: web
+    name: crm-backend
+    env: node
+    region: frankfurt
+    plan: free
+    buildCommand: cd backend && npm install && npx prisma generate
+    startCommand: cd backend && npm start
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: NODE_ENV
+        value: production
+
+  # Frontend React App
+  - type: web
+    name: crm-frontend
+    env: node
+    region: frankfurt
+    plan: free
+    buildCommand: cd frontend && npm install && npm run build
+    startCommand: cd frontend && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+
+  # PostgreSQL Database
+  - type: pgsql
+    name: crm-database
+    region: frankfurt
+    plan: free
+    databaseName: crm_db
+    databaseUser: crm_user
