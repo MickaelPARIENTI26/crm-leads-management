@@ -32,6 +32,35 @@ const normalizePhoneNumber = (phone) => {
     return null;
 };
 
+// Convertit une date Excel en objet Date JavaScript
+const parseExcelDate = (excelDate) => {
+    if (!excelDate) return null;
+
+    // Si c'est déjà une date JavaScript valide
+    if (excelDate instanceof Date) {
+        return excelDate;
+    }
+
+    // Si c'est une chaîne de caractères (format ISO ou autre)
+    if (typeof excelDate === 'string') {
+        const parsedDate = new Date(excelDate);
+        if (!isNaN(parsedDate.getTime())) {
+            return parsedDate;
+        }
+    }
+
+    // Si c'est un numéro (format Excel: nombre de jours depuis 1900-01-01)
+    if (typeof excelDate === 'number') {
+        // Excel date serial number
+        // 1 = 1900-01-01, mais Excel a un bug: 1900 n'est pas une année bissextile
+        const excelEpoch = new Date(1899, 11, 30); // 30 décembre 1899
+        const msPerDay = 24 * 60 * 60 * 1000;
+        return new Date(excelEpoch.getTime() + excelDate * msPerDay);
+    }
+
+    return null;
+};
+
 // Détermine le type de lead selon le nom de l'onglet
 const getLeadTypeFromSheetName = (sheetName) => {
     const upperName = sheetName.toUpperCase();
@@ -57,7 +86,8 @@ const mapRowToLead = (row) => {
 
     // Extraire les valeurs en utilisant différents noms possibles
     const chauffage = row[keyMap['CHAUFFAGE']] || row[keyMap['CHAUF']] || '';
-    const date = row[keyMap['DATE']];
+    const dateRaw = row[keyMap['DATE']];
+    const date = parseExcelDate(dateRaw);
     const email = row[keyMap['MAIL']] || row[keyMap['EMAIL']];
     const prenom = row[keyMap['PRENOM']] || row[keyMap['PRÉNOM']];
     const nom = row[keyMap['NOM']];
