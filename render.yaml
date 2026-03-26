@@ -27,10 +27,9 @@ services:
       - key: NODE_ENV
         value: production
 
-  # PostgreSQL Database
-  - type: pgsql
-    name: crm-database
+databases:
+  - name: crm-database
     region: frankfurt
     plan: free
     databaseName: crm_db
-    databaseUser: crm_user
+    user: crm_user
